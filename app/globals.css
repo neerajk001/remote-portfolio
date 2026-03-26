@@ -9,6 +9,27 @@
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --muted: rgba(255, 255, 255, 0.65);
+  --dot-border: rgba(92, 92, 104, 0.55);
+  --page-bg:
+    radial-gradient(900px 500px at 12% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
+    radial-gradient(700px 400px at 85% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
+    linear-gradient(180deg, #0d0d0f 0%, #0b0b0d 40%, #09090b 100%);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #f3f5f9;
+  --foreground: #11141a;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-muted: rgba(10, 16, 28, 0.06);
+  --border: rgba(10, 16, 28, 0.12);
+  --border-strong: rgba(10, 16, 28, 0.22);
+  --muted: rgba(10, 16, 28, 0.62);
+  --dot-border: rgba(128, 136, 148, 0.42);
+  --page-bg:
+    radial-gradient(900px 500px at 12% -20%, rgba(68, 90, 130, 0.14), transparent 60%),
+    radial-gradient(700px 400px at 85% 0%, rgba(88, 110, 145, 0.12), transparent 60%),
+    linear-gradient(180deg, #f9fbff 0%, #eef2f8 40%, #e9edf5 100%);
 }
 
 @theme inline {
@@ -28,16 +49,17 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(900px 500px at 12% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
-    radial-gradient(700px 400px at 85% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
-    linear-gradient(180deg, #0d0d0f 0%, #0b0b0d 40%, #09090b 100%);
+  background: var(--page-bg);
   color: var(--foreground);
   font-family: var(--font-geist-sans), "Geist", "Segoe UI", sans-serif;
 }
 
 ::selection {
   background: rgba(12, 13, 15, 0.12);
+}
+
+:root[data-theme="light"] ::selection {
+  background: rgba(58, 78, 114, 0.2);
 }
 
 .page-shell {
@@ -73,4 +95,54 @@ body {
 
 .hairline {
   background: linear-gradient(90deg, transparent, rgba(12, 13, 15, 0.22), transparent);
+}
+
+:root[data-theme="light"] .text-white {
+  color: #11141a;
+}
+
+:root[data-theme="light"] .text-white\/80 {
+  color: rgba(17, 20, 26, 0.8);
+}
+
+:root[data-theme="light"] .text-white\/70 {
+  color: rgba(17, 20, 26, 0.7);
+}
+
+:root[data-theme="light"] .text-white\/60 {
+  color: rgba(17, 20, 26, 0.6);
+}
+
+:root[data-theme="light"] .text-white\/50 {
+  color: rgba(17, 20, 26, 0.52);
+}
+
+:root[data-theme="light"] .text-white\/40 {
+  color: rgba(17, 20, 26, 0.42);
+}
+
+:root[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(10, 16, 28, 0.06);
+}
+
+:root[data-theme="light"] .bg-black\/60 {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+:root[data-theme="light"] .border-white\/10 {
+  border-color: rgba(10, 16, 28, 0.14);
+}
+
+:root[data-theme="light"] .border-white\/40 {
+  border-color: rgba(10, 16, 28, 0.4);
+}
+
+:root[data-theme="light"] .divide-white\/5 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(10, 16, 28, 0.08);
+}
+
+.dotted-panel {
+  border: 1px dotted var(--dot-border);
+  border-radius: 12px;
+  padding: 1rem;
 }

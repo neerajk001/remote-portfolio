@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const experienceItems = [
   {
@@ -48,14 +48,43 @@ const techStack = [
   "Framer Motion",
 ];
 
+type Theme = "dark" | "light";
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"experience" | "built">(
     "experience"
   );
+  const [theme, setTheme] = useState<Theme>("dark");
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem("theme");
+    const prefersLight = window.matchMedia(
+      "(prefers-color-scheme: light)"
+    ).matches;
+    const nextTheme: Theme =
+      storedTheme === "light" || storedTheme === "dark"
+        ? storedTheme
+        : prefersLight
+          ? "light"
+          : "dark";
+
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
   return (
     <div className="page-shell min-h-screen">
       <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 pb-36 pt-20 sm:px-10 lg:px-16">
-        <div className="flex flex-col gap-4">
+        <div className="dotted-panel flex flex-col gap-4">
           <h1 className="text-4xl font-semibold lowercase tracking-tight text-white sm:text-5xl lg:text-6xl">
             hii neeraj here
           </h1>
@@ -65,7 +94,10 @@ export default function Home() {
           </div>
         </div>
 
-        <section id="about" className="flex max-w-3xl flex-col gap-5 pt-10">
+        <section
+          id="about"
+          className="dotted-panel flex max-w-3xl flex-col gap-5 pt-10"
+        >
           <h2 className="text-2xl font-semibold lowercase tracking-tight text-white sm:text-3xl">
             about
           </h2>
@@ -92,7 +124,7 @@ export default function Home() {
           </p>
         </section>
 
-        <section id="experience" className="pt-12">
+        <section id="experience" className="dotted-panel pt-12">
           <div className="flex items-center gap-8 border-b border-white/10 pb-4 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
             <button
               className={`pb-4 transition ${
@@ -199,7 +231,7 @@ export default function Home() {
           )}
         </section>
 
-        <section id="stack" className="pt-12">
+        <section id="stack" className="dotted-panel pt-12">
           <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
             my go to tech stack
           </div>
@@ -217,10 +249,10 @@ export default function Home() {
       </main>
 
       <nav className="pointer-events-none fixed inset-x-0 bottom-6 z-20 flex justify-center px-4">
-        <div className="pointer-events-auto flex items-center gap-4 rounded-full border border-white/10 bg-black/60 px-5 py-3 text-white/80 shadow-[0_12px_30px_rgba(0,0,0,0.45)] backdrop-blur">
+        <div className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-white/10 bg-black/60 px-3 py-2 text-white/80 shadow-[0_12px_30px_rgba(0,0,0,0.45)] backdrop-blur">
           <a
             aria-label="Home"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
             href="#"
           >
             <svg
@@ -241,7 +273,7 @@ export default function Home() {
           <span className="h-6 w-px bg-white/10" />
           <a
             aria-label="Notes"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
             href="#about"
           >
             <svg
@@ -264,7 +296,7 @@ export default function Home() {
           <span className="h-6 w-px bg-white/10" />
           <a
             aria-label="GitHub"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
             href="#"
           >
             <svg
@@ -278,7 +310,7 @@ export default function Home() {
           </a>
           <a
             aria-label="LinkedIn"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
             href="#"
           >
             <svg
@@ -292,7 +324,7 @@ export default function Home() {
           </a>
           <a
             aria-label="X"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
             href="#"
           >
             <svg
@@ -306,7 +338,7 @@ export default function Home() {
           </a>
           <a
             aria-label="Email"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
             href="mailto:hello@example.com"
           >
             <svg
@@ -325,25 +357,46 @@ export default function Home() {
           </a>
           <span className="h-6 w-px bg-white/10" />
           <button
-            aria-label="Toggle theme"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            onClick={toggleTheme}
             type="button"
           >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 3a6 6 0 0 0 0 12 6.5 6.5 0 0 1-6.5 6A9 9 0 1 1 12 3Z" />
-              <path d="m16 5 .7-1.2" />
-              <path d="m18 8 1.2-.7" />
-              <path d="m18 12 1.2.7" />
-            </svg>
+            {theme === "dark" ? (
+              <svg
+                aria-hidden="true"
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+              </svg>
+            ) : (
+              <svg
+                aria-hidden="true"
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 3a6 6 0 0 0 0 12 6.5 6.5 0 0 1-6.5 6A9 9 0 1 1 12 3Z" />
+              </svg>
+            )}
           </button>
         </div>
       </nav>
