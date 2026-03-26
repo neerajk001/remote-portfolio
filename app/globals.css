@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #0b0b0d;
+  --foreground: #f2f2f2;
+  --surface: rgba(18, 18, 20, 0.8);
+  --surface-muted: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --muted: rgba(255, 255, 255, 0.65);
 }
 
 @theme inline {
@@ -12,15 +18,59 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(900px 500px at 12% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
+    radial-gradient(700px 400px at 85% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
+    linear-gradient(180deg, #0d0d0f 0%, #0b0b0d 40%, #09090b 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Geist", "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: rgba(12, 13, 15, 0.12);
+}
+
+.page-shell {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.page-shell::before {
+  content: "";
+  position: absolute;
+  inset: -200px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.page-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(420px 260px at 70% 20%, rgba(255, 255, 255, 0.06), transparent 70%);
+  pointer-events: none;
+}
+
+.card-surface {
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 24px 60px rgba(12, 13, 15, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.hairline {
+  background: linear-gradient(90deg, transparent, rgba(12, 13, 15, 0.22), transparent);
 }
