@@ -84,7 +84,7 @@ export default function Home() {
   return (
     <div className="page-shell min-h-screen">
       <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 pb-36 pt-20 sm:px-10 lg:px-16">
-        <div className="dotted-panel flex flex-col gap-4">
+        <div className="dotted-panel w-full flex flex-col gap-4">
           <h1 className="text-4xl font-semibold lowercase tracking-tight text-white sm:text-5xl lg:text-6xl">
             hii neeraj here
           </h1>
@@ -96,7 +96,7 @@ export default function Home() {
 
         <section
           id="about"
-          className="dotted-panel flex max-w-3xl flex-col gap-5 pt-10"
+          className="dotted-panel w-full flex flex-col gap-5 pt-10"
         >
           <h2 className="text-2xl font-semibold lowercase tracking-tight text-white sm:text-3xl">
             about
@@ -124,7 +124,7 @@ export default function Home() {
           </p>
         </section>
 
-        <section id="experience" className="dotted-panel pt-12">
+        <section id="experience" className="dotted-panel w-full pt-12">
           <div className="flex items-center gap-8 border-b border-white/10 pb-4 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
             <button
               className={`pb-4 transition ${
@@ -231,7 +231,7 @@ export default function Home() {
           )}
         </section>
 
-        <section id="stack" className="dotted-panel pt-12">
+        <section id="stack" className="dotted-panel w-full pt-12">
           <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
             my go to tech stack
           </div>

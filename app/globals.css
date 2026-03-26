@@ -71,11 +71,8 @@ body {
   content: "";
   position: absolute;
   inset: -200px;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
-  opacity: 0.25;
+  background: none;
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -143,6 +140,6 @@ body {
 
 .dotted-panel {
   border: 1px dotted var(--dot-border);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 1rem;
 }
