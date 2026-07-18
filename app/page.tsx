@@ -38,6 +38,15 @@ const builtItems = [
   },
 ];
 
+const educationItems = [
+  {
+    period: "2022 — 2026",
+    degree: "Bachelor of Technology in Computer Science",
+    institution: "University of Mumbai",
+    location: "mumbai",
+  },
+];
+
 const techStack = [
   "TypeScript",
   "React.js",
@@ -51,9 +60,9 @@ const techStack = [
 type Theme = "dark" | "light";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"experience" | "built">(
-    "experience"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "experience" | "built" | "education"
+  >("experience");
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
@@ -148,8 +157,19 @@ export default function Home() {
             >
               stuff i built
             </button>
+            <button
+              className={`pb-4 transition ${
+                activeTab === "education"
+                  ? "border-b border-white text-white"
+                  : "text-white/40 hover:text-white/70"
+              }`}
+              onClick={() => setActiveTab("education")}
+              type="button"
+            >
+              education
+            </button>
           </div>
-          {activeTab === "experience" ? (
+          {activeTab === "experience" && (
             <div className="mt-6 divide-y divide-white/5">
               {experienceItems.map((item) => (
                 <div
@@ -174,7 +194,8 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          ) : (
+          )}
+          {activeTab === "built" && (
             <div className="mt-6 divide-y divide-white/5">
               {builtItems.map((item) => (
                 <div
@@ -224,6 +245,32 @@ export default function Home() {
                         <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
                       </svg>
                     </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {activeTab === "education" && (
+            <div className="mt-6 divide-y divide-white/5">
+              {educationItems.map((item) => (
+                <div
+                  key={`${item.degree}-${item.institution}`}
+                  className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="flex flex-col gap-2">
+                    <span className="text-xs uppercase tracking-[0.35em] text-white/40">
+                      {item.period}
+                    </span>
+                    <div className="text-lg font-semibold text-white">
+                      {item.degree}
+                    </div>
+                    <div className="text-sm text-white/50">{item.institution}</div>
+                  </div>
+                  <div className="flex w-full items-center justify-end gap-4">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white/50">
+                      {item.location}
+                    </span>
+                    <span className="text-lg text-white/50">↗</span>
                   </div>
                 </div>
               ))}
