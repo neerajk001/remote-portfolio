@@ -214,9 +214,9 @@ export default function Home() {
               {experienceItems.map((item) => (
                 <div
                   key={`${item.role}-${item.company}`}
-                  className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between"
+                  className="flex flex-col gap-4 py-6 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-8"
                 >
-                  <div className="flex flex-col gap-2">
+                  <div className="flex min-w-0 flex-col gap-2">
                     <span className="text-xs uppercase tracking-[0.35em] text-white/40">
                       {item.period}
                     </span>
@@ -231,7 +231,7 @@ export default function Home() {
                       {item.detail}
                     </button>
                   </div>
-                  <div className="flex w-full items-center justify-end gap-4">
+                  <div className="flex shrink-0 items-center justify-end gap-4 sm:justify-self-end">
                     <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white/50">
                       {item.location}
                     </span>
@@ -246,9 +246,9 @@ export default function Home() {
               {builtItems.map((item) => (
                 <div
                   key={item.title}
-                  className="flex items-center justify-between gap-4 py-6"
+                  className="flex flex-col gap-4 py-6 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-8"
                 >
-                  <div className="flex flex-col gap-1">
+                  <div className="flex min-w-0 flex-col gap-1">
                     <div className="text-lg font-semibold text-white">
                       {item.title}
                     </div>
@@ -259,7 +259,7 @@ export default function Home() {
                       {item.detail}
                     </button>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex shrink-0 items-center gap-4 sm:justify-self-end">
                     <a
                       aria-label="GitHub repository"
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:border-white/40 hover:text-white"
@@ -346,7 +346,7 @@ export default function Home() {
 
       {/* Project Detail Panel */}
       <div
-        className={`fixed inset-y-0 right-0 z-30 w-full sm:w-[450px] bg-black/95 backdrop-blur-md border-l border-white/10 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 z-30 w-full md:w-[min(42vw,680px)] bg-black/95 backdrop-blur-md border-l border-white/10 transform transition-transform duration-300 ease-in-out ${
           selectedProject ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -448,7 +448,7 @@ export default function Home() {
 
       {/* Experience Detail Panel */}
       <div
-        className={`fixed inset-y-0 right-0 z-30 w-full sm:w-[450px] bg-black/95 backdrop-blur-md border-l border-white/10 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 right-0 z-30 w-full md:w-[min(42vw,680px)] bg-black/95 backdrop-blur-md border-l border-white/10 transform transition-transform duration-300 ease-in-out ${
           selectedExperience ? "translate-x-0" : "translate-x-full"
         }`}
       >
