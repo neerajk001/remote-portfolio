@@ -108,12 +108,44 @@ export default function Home() {
 
   return (
     <div className="page-shell min-h-screen">
-      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 pb-36 pt-20 sm:px-10 lg:px-16">
+      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 pb-36 pt-10 sm:px-10 sm:pt-16 lg:px-16">
+        <header className="profile-card">
+          <img
+            className="profile-avatar"
+            src="https://i.pravatar.cc/160?img=12"
+            alt="Neeraj Kushwaha"
+          />
+          <div className="profile-content">
+            <span className="availability-badge">
+              <span className="availability-dot" />
+              Available
+            </span>
+            <h1 className="profile-name">Neeraj Kushwaha</h1>
+            <p className="profile-role">software engineer | designer</p>
+            <div className="profile-socials" aria-label="Social links">
+              <a className="profile-social" href="#" aria-label="LinkedIn">in</a>
+              <a className="profile-social" href="#" aria-label="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.8.61-3.39-1.35-3.39-1.35-.46-1.17-1.12-1.48-1.12-1.48-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.35 1.09 2.93.84.09-.65.35-1.09.64-1.35-2.23-.25-4.58-1.12-4.58-4.97 0-1.1.39-2 1.04-2.7-.1-.25-.45-1.28.1-2.66 0 0 .85-.27 2.77 1.03a9.6 9.6 0 0 1 2.52-.34c.85 0 1.72.12 2.52.34 1.92-1.3 2.77-1.03 2.77-1.03.55 1.38.2 2.41.1 2.66.64.7 1.03 1.6 1.03 2.7 0 3.86-2.35 4.71-4.59 4.96.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+                </svg>
+              </a>
+              <a className="profile-social profile-social-x" href="#" aria-label="X">X</a>
+              <a className="profile-social" href="mailto:hello@example.com" aria-label="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="3" y="5" width="18" height="14" rx="1" />
+                  <path d="m4 7 8 6 8-6" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div className="profile-actions">
+            <a className="resume-button" href="/resume.pdf">Download Resume</a>
+            <a className="work-button" href="#experience">View My Work</a>
+          </div>
+        </header>
+
         <div className="dotted-panel w-full flex flex-col gap-4">
-          <h1 className="text-4xl font-semibold lowercase tracking-tight text-white sm:text-5xl lg:text-6xl">
-            hii neeraj here
-          </h1>
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-[var(--muted)]">
+          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-(--muted)">
             <span className="h-2 w-2 rounded-full bg-white/70" />
             present: mumbai
           </div>

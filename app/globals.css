@@ -143,3 +143,148 @@ body {
   border-radius: 0;
   padding: 1rem;
 }
+
+.profile-card {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 0 18px;
+  width: min(100%, 720px);
+  padding: 16px;
+  border: 1px solid #45454b;
+  border-radius: 3px;
+  background: #050505;
+  color: #fff;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.28);
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border: 1px solid #d7d0b9;
+  border-radius: 9px;
+  padding: 3px;
+  background: #b9a989;
+  object-fit: cover;
+}
+
+.profile-content {
+  min-width: 0;
+}
+
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: #08733c;
+  color: #d9ffe9;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.availability-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #61efa0;
+}
+
+.profile-name {
+  margin-top: 5px;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.profile-role {
+  margin-top: 2px;
+  color: #d1d1d1;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.profile-socials {
+  display: flex;
+  gap: 9px;
+  margin-top: 8px;
+}
+
+.profile-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.profile-social:hover,
+.profile-social:focus-visible {
+  background: #fff;
+  color: #050505;
+}
+
+.profile-social svg {
+  width: 17px;
+  height: 17px;
+}
+
+.profile-social-x {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profile-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.resume-button,
+.work-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 23px;
+  padding: 3px 12px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: opacity 160ms ease, background-color 160ms ease;
+}
+
+.resume-button {
+  background: #fff;
+  color: #090909;
+}
+
+.work-button {
+  border: 1px solid #686868;
+  color: #e8e8e8;
+}
+
+.resume-button:hover,
+.work-button:hover,
+.resume-button:focus-visible,
+.work-button:focus-visible {
+  opacity: 0.75;
+}
+
+@media (min-width: 640px) {
+  .profile-actions {
+    grid-column: 1 / -1;
+  }
+}
