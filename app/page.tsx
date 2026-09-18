@@ -198,17 +198,17 @@ export default function Home() {
 
   return (
     <div id="top" className="min-h-screen">
-      <main className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-5 pb-32 pt-8 sm:px-8 sm:pt-14 lg:max-w-6xl lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-8">
+      <main className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-3 pb-28 pt-6 sm:gap-6 sm:px-8 sm:pt-14 lg:max-w-6xl lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-8">
         {/* ---------- Left column (sticky profile on desktop) ---------- */}
-        <div className="flex min-w-0 flex-col gap-6 lg:sticky lg:top-8">
+        <div className="flex min-w-0 flex-col gap-4 sm:gap-6 lg:sticky lg:top-8">
         {/* ---------- Profile ---------- */}
         <header className="profile-card">
           <Image
             className="profile-avatar"
             src="/pic.png"
             alt="Portrait of Neeraj Kushwaha"
-            width={96}
-            height={96}
+            width={240}
+            height={240}
             priority
           />
           <div className="profile-content">
@@ -270,7 +270,7 @@ export default function Home() {
         </div>
 
         {/* ---------- Right column (content on desktop) ---------- */}
-        <div className="flex min-w-0 flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
         {/* ---------- About ---------- */}
         <section id="about" aria-labelledby="about-heading" className="panel">
           <h2 id="about-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">
