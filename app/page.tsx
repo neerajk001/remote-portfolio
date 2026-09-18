@@ -112,7 +112,7 @@ export default function Home() {
         <header className="profile-card">
           <img
             className="profile-avatar"
-            src="https://i.pravatar.cc/160?img=12"
+            src="/pic.png"
             alt="Neeraj Kushwaha"
           />
           <div className="profile-content">

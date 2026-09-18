@@ -152,7 +152,7 @@ body {
   padding: 16px;
   border: 1px solid #45454b;
   border-radius: 3px;
-  background: #050505;
+  background: transparent;
   color: #fff;
   box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.28);
 }
