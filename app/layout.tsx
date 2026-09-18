@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Neeraj — Product Designer",
+  title: "Neeraj Kushwaha — Full-Stack Developer",
   description:
-    "Monochrome portfolio for a product designer building calm, precise digital systems.",
+    "Portfolio of Neeraj Kushwaha, a full-stack developer in Mumbai building web apps and AI experiments with Next.js, TypeScript, and Node.js.",
 };
 
 export default function RootLayout({
@@ -26,9 +26,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-transparent text-white">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem("theme");var l=window.matchMedia("(prefers-color-scheme: light)").matches;var t=s==="light"||s==="dark"?s:(l?"light":"dark");document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme="dark";}})();`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col app-body">
         {children}
       </body>
     </html>

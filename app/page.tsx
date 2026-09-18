@@ -1,26 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 const experienceItems = [
   {
-    period: "aug 2025 — pres",
+    period: "Aug 2025 — Present",
     role: "Full-Stack Developer",
     company: "Webvision Softech Pvt Ltd",
-    location: "mumbai",
-    detail: "view in detail",
-    description: "Working as a full-stack developer building web applications and contributing to client projects. Responsible for developing and maintaining multiple web applications using modern technologies.",
-    responsibilities: ["Developing full-stack web applications", "Collaborating with team on client projects", "Code reviews and optimization", "Building responsive UIs"],
+    location: "Mumbai",
+    description:
+      "Working as a full-stack developer building web applications and contributing to client projects. Responsible for developing and maintaining multiple web applications using modern technologies.",
+    responsibilities: [
+      "Developing full-stack web applications",
+      "Collaborating with team on client projects",
+      "Code reviews and optimization",
+      "Building responsive UIs",
+    ],
     tech: ["Next.js", "TypeScript", "Node.js", "MongoDB"],
   },
   {
     period: "2024 — 2025",
     role: "Freelance Developer",
     company: "Vectorio.dev",
-    location: "mumbai",
-    detail: "view in detail",
-    description: "Started freelancing during third year of college, building projects for clients and running my own digital agency. Focused on delivering high-quality web solutions.",
-    responsibilities: ["Client project delivery", "Full-cycle web development", "Business development", "Managing client relationships"],
+    location: "Mumbai",
+    description:
+      "Started freelancing during third year of college, building projects for clients and running my own digital agency. Focused on delivering high-quality web solutions.",
+    responsibilities: [
+      "Client project delivery",
+      "Full-cycle web development",
+      "Business development",
+      "Managing client relationships",
+    ],
     tech: ["React", "Next.js", "Tailwind CSS", "PostgreSQL"],
   },
 ];
@@ -29,24 +40,34 @@ type ExperienceItem = (typeof experienceItems)[number];
 
 const builtItems = [
   {
-    title: "Project 1",
-    detail: "view in detail",
-    github: "#",
-    live: "#",
-    description: "A modern web application built with cutting-edge technologies. This project showcases full-stack development skills with a focus on user experience and performance.",
+    title: "SaaS Dashboard",
+    summary: "Realtime analytics with auth and API integrations",
+    github: "https://github.com/",
+    live: "https://vectorio.dev",
+    description:
+      "A modern web application built with cutting-edge technologies. Showcases full-stack development with a focus on user experience and performance.",
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
-    features: ["Responsive design", "Real-time updates", "Authentication system", "API integration"],
-    image: "/projects/project1.png",
+    features: [
+      "Responsive design",
+      "Real-time updates",
+      "Authentication system",
+      "API integration",
+    ],
   },
   {
-    title: "Project 2",
-    detail: "view in detail",
-    github: "#",
-    live: "#",
-    description: "An innovative mobile-first application designed for seamless task management. Built with a clean architecture and modern tooling.",
+    title: "Task Management App",
+    summary: "Mobile-first task manager with offline support",
+    github: "https://github.com/",
+    live: "https://vectorio.dev",
+    description:
+      "An innovative mobile-first application for seamless task management. Built with a clean architecture and modern tooling.",
     tech: ["React", "Node.js", "MongoDB", "Framer Motion"],
-    features: ["Drag and drop interface", "Offline support", "Push notifications", "Dark mode"],
-    image: "/projects/project2.png",
+    features: [
+      "Drag and drop interface",
+      "Offline support",
+      "Push notifications",
+      "Dark mode",
+    ],
   },
 ];
 
@@ -55,9 +76,9 @@ type BuiltItem = (typeof builtItems)[number];
 const educationItems = [
   {
     period: "2022 — 2026",
-    degree: "Bachelor of Technology in Computer Science",
-    institution: "Shree LR Tiwari College of Engineering",
-    location: "mumbai",
+    degree: "B.Tech in Computer Science",
+    institution: "Shree L.R. Tiwari College of Engineering",
+    location: "Mumbai",
   },
 ];
 
@@ -71,486 +92,487 @@ const techStack = [
   "Framer Motion",
 ];
 
+const beliefs = [
+  "Speed matters — ship fast, iterate faster.",
+  "Simple beats clever. Delete code before adding it.",
+  "Design is how it works, not how it looks.",
+];
+
 type Theme = "dark" | "light";
+type TabId = "experience" | "built" | "education";
+type Selection =
+  | { kind: "project"; item: BuiltItem }
+  | { kind: "experience"; item: ExperienceItem }
+  | null;
+
+const EMAIL = "hello@vectorio.dev";
+
+function GitHubIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.8.61-3.39-1.35-3.39-1.35-.46-1.17-1.12-1.48-1.12-1.48-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.35 1.09 2.93.84.09-.65.35-1.09.64-1.35-2.23-.25-4.58-1.12-4.58-4.97 0-1.1.39-2 1.04-2.7-.1-.25-.45-1.28.1-2.66 0 0 .85-.27 2.77 1.03a9.6 9.6 0 0 1 2.52-.34c.85 0 1.72.12 2.52.34 1.92-1.3 2.77-1.03 2.77-1.03.55 1.38.2 2.41.1 2.66.64.7 1.03 1.6 1.03 2.7 0 3.86-2.35 4.71-4.59 4.96.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+    </svg>
+  );
+}
+
+function LinkedInIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.3c0-1.26-.02-2.88-1.75-2.88-1.75 0-2.02 1.37-2.02 2.79V21h-4V9Z" />
+    </svg>
+  );
+}
+
+function XIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M18.9 3H21l-6.9 7.89L22 21h-6.2l-4.86-6.33L5.3 21H3l7.41-8.46L2 3h6.35l4.4 5.78L18.9 3Zm-1.08 16.2h1.9L7.62 4.7H5.6l12.22 14.5Z" />
+    </svg>
+  );
+}
+
+function MailIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m4 7 8 6 8-6" />
+    </svg>
+  );
+}
+
+function ExternalIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" className={className} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+      <path d="M14 3h7v7" />
+      <path d="M10 14 21 3" />
+      <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+    </svg>
+  );
+}
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<
-    "experience" | "built" | "education"
-  >("experience");
-  const [theme, setTheme] = useState<Theme>("dark");
-  const [selectedProject, setSelectedProject] = useState<BuiltItem | null>(null);
-  const [selectedExperience, setSelectedExperience] = useState<ExperienceItem | null>(null);
-
-  useEffect(() => {
-    const storedTheme = window.localStorage.getItem("theme");
-    const prefersLight = window.matchMedia(
-      "(prefers-color-scheme: light)"
-    ).matches;
-    const nextTheme: Theme =
-      storedTheme === "light" || storedTheme === "dark"
-        ? storedTheme
-        : prefersLight
-          ? "light"
-          : "dark";
-
-    setTheme(nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
-  }, []);
+  const [activeTab, setActiveTab] = useState<TabId>("experience");
+  const [theme, setTheme] = useState<Theme>(() =>
+    typeof document !== "undefined" &&
+    document.documentElement.dataset.theme === "light"
+      ? "light"
+      : "dark"
+  );
+  const [selection, setSelection] = useState<Selection>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("theme", theme);
+    try {
+      window.localStorage.setItem("theme", theme);
+    } catch {
+      // storage unavailable — theme still applies for this session
+    }
   }, [theme]);
 
-  const toggleTheme = () => {
+  const closeDrawer = useCallback(() => setSelection(null), []);
+
+  useEffect(() => {
+    if (!selection) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDrawer();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [selection, closeDrawer]);
+
+  const toggleTheme = () =>
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
+
+  const tabs: { id: TabId; label: string }[] = [
+    { id: "experience", label: "Experience" },
+    { id: "built", label: "Projects" },
+    { id: "education", label: "Education" },
+  ];
 
   return (
-    <div className="page-shell min-h-screen">
-      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 pb-36 pt-10 sm:px-10 sm:pt-16 lg:px-16">
+    <div id="top" className="min-h-screen">
+      <main className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-5 pb-32 pt-8 sm:px-8 sm:pt-14">
+        {/* ---------- Profile ---------- */}
         <header className="profile-card">
-          <img
+          <Image
             className="profile-avatar"
             src="/pic.png"
-            alt="Neeraj Kushwaha"
+            alt="Portrait of Neeraj Kushwaha"
+            width={96}
+            height={96}
+            priority
           />
           <div className="profile-content">
             <span className="availability-badge">
-              <span className="availability-dot" />
-              Available
+              <span className="availability-dot" aria-hidden="true" />
+              Available for work
             </span>
             <h1 className="profile-name">Neeraj Kushwaha</h1>
-            <p className="profile-role">software engineer | designer</p>
+            <p className="profile-role">Full-Stack Developer</p>
+            <p className="profile-meta">
+              Mumbai, India · Building AI systems and web experiments
+            </p>
             <div className="profile-socials" aria-label="Social links">
-              <a className="profile-social" href="#" aria-label="LinkedIn">in</a>
-              <a className="profile-social" href="#" aria-label="GitHub">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.8.61-3.39-1.35-3.39-1.35-.46-1.17-1.12-1.48-1.12-1.48-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.35 1.09 2.93.84.09-.65.35-1.09.64-1.35-2.23-.25-4.58-1.12-4.58-4.97 0-1.1.39-2 1.04-2.7-.1-.25-.45-1.28.1-2.66 0 0 .85-.27 2.77 1.03a9.6 9.6 0 0 1 2.52-.34c.85 0 1.72.12 2.52.34 1.92-1.3 2.77-1.03 2.77-1.03.55 1.38.2 2.41.1 2.66.64.7 1.03 1.6 1.03 2.7 0 3.86-2.35 4.71-4.59 4.96.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
-                </svg>
+              <a
+                className="profile-social"
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
+              >
+                <LinkedInIcon className="h-[17px] w-[17px]" />
               </a>
-              <a className="profile-social profile-social-x" href="#" aria-label="X">X</a>
-              <a className="profile-social" href="mailto:hello@example.com" aria-label="Email">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <rect x="3" y="5" width="18" height="14" rx="1" />
-                  <path d="m4 7 8 6 8-6" />
-                </svg>
+              <a
+                className="profile-social"
+                href="https://github.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+              >
+                <GitHubIcon className="h-[17px] w-[17px]" />
+              </a>
+              <a
+                className="profile-social"
+                href="https://x.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X profile"
+              >
+                <XIcon className="h-[17px] w-[17px]" />
+              </a>
+              <a
+                className="profile-social"
+                href={`mailto:${EMAIL}`}
+                aria-label={`Email ${EMAIL}`}
+              >
+                <MailIcon className="h-[17px] w-[17px]" />
               </a>
             </div>
           </div>
           <div className="profile-actions">
-            <a className="resume-button" href="/resume.pdf">Download Resume</a>
-            <a className="work-button" href="#experience">View My Work</a>
+            <a className="btn-primary" href="/resume.pdf" download>
+              Download Resume
+            </a>
+            <a className="btn-secondary" href="#work">
+              View My Work
+            </a>
           </div>
         </header>
 
-        <div className="dotted-panel w-full flex flex-col gap-4">
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-(--muted)">
-            <span className="h-2 w-2 rounded-full bg-white/70" />
-            present: mumbai
-          </div>
-        </div>
-
-        <div className="dotted-panel w-full flex flex-col gap-3 pt-8 pb-2">
-          <p className="text-sm text-white/50 tracking-wide">
-            building AI systems + web experiments
-          </p>
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-white/40">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-            </span>
-            status: online
-          </div>
-        </div>
-
-        <section
-          id="about"
-          className="dotted-panel w-full flex flex-col gap-5 pt-10"
-        >
-          <h2 className="text-2xl font-semibold lowercase tracking-tight text-white sm:text-3xl">
-            about
+        {/* ---------- About ---------- */}
+        <section id="about" aria-labelledby="about-heading" className="panel">
+          <h2 id="about-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">
+            About
           </h2>
-          <p className="text-base text-white/60">
-            tldr; learnt by hacking around on the internet.
-          </p>
-          <p className="text-base text-white/70">
-            I like technology. It makes a dent in the universe.
-          </p>
-          <p className="text-base text-white/70">
-            I write code agentically. A lot of it.
-          </p>
-          <p className="text-base text-white/70">
-            Speed ran content across socials when I was young.
-          </p>
-          <p className="text-base text-white/70">
-            Right now I just build stuff!
-          </p>
-          <p className="text-base text-white/70">
-            Also available for freelance work{" "}
-            <a
-              href="https://vectorio.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-4 text-white/90 hover:text-white transition"
-            >
-              → vectorio.dev
-            </a>
-          </p>
-          <p className="text-base text-white/70">
-            If you want to know more about me,{" "}
-            <span className="underline underline-offset-4">
-              here are somethings I believe in.
-            </span>
-          </p>
+          <div className="mt-4 flex flex-col gap-3 text-[0.95rem] leading-relaxed t-muted">
+            <p>
+              I&apos;m Neeraj — a full-stack developer in Mumbai. I learned by
+              hacking around on the internet and now I build web apps and AI
+              experiments, mostly with Next.js and TypeScript.
+            </p>
+            <p>
+              Previously freelancing through{" "}
+              <a
+                href="https://vectorio.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 t-fg hover:opacity-80"
+              >
+                Vectorio.dev
+              </a>
+              , now full-time at Webvision Softech. Open to freelance work on
+              the side.
+            </p>
+            <details className="group rounded-xl border border-[var(--border)] p-4">
+              <summary className="cursor-pointer text-sm font-semibold t-fg">
+                Things I believe in
+              </summary>
+              <ul className="mt-3 flex flex-col gap-2 text-sm">
+                {beliefs.map((b) => (
+                  <li key={b} className="flex items-start gap-2.5">
+                    <span
+                      aria-hidden="true"
+                      className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--faint)]"
+                    />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </div>
         </section>
 
-        <section id="experience" className="dotted-panel w-full pt-12">
-          <div className="flex items-center gap-8 border-b border-white/10 pb-4 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
-            <button
-              className={`pb-4 transition ${
-                activeTab === "experience"
-                  ? "border-b border-white text-white"
-                  : "text-white/40 hover:text-white/70"
-              }`}
-              onClick={() => setActiveTab("experience")}
-              type="button"
-            >
-              experience
-            </button>
-            <button
-              className={`pb-4 transition ${
-                activeTab === "built"
-                  ? "border-b border-white text-white"
-                  : "text-white/40 hover:text-white/70"
-              }`}
-              onClick={() => setActiveTab("built")}
-              type="button"
-            >
-              stuff i built
-            </button>
-            <button
-              className={`pb-4 transition ${
-                activeTab === "education"
-                  ? "border-b border-white text-white"
-                  : "text-white/40 hover:text-white/70"
-              }`}
-              onClick={() => setActiveTab("education")}
-              type="button"
-            >
-              education
-            </button>
+        {/* ---------- Work ---------- */}
+        <section id="work" aria-labelledby="work-heading" className="panel">
+          <h2 id="work-heading" className="sr-only">
+            Work
+          </h2>
+          <div role="tablist" aria-label="Work history" className="tablist">
+            {tabs.map((t) => (
+              <button
+                key={t.id}
+                role="tab"
+                type="button"
+                aria-selected={activeTab === t.id}
+                className="tab"
+                onClick={() => setActiveTab(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
           </div>
+
           {activeTab === "experience" && (
-            <div className="mt-6 divide-y divide-white/5">
+            <div role="tabpanel" className="divider mt-2">
               {experienceItems.map((item) => (
-                <div
+                <button
                   key={`${item.role}-${item.company}`}
-                  className="flex flex-col gap-4 py-6 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-8"
+                  type="button"
+                  className="row-button"
+                  onClick={() =>
+                    setSelection({ kind: "experience", item })
+                  }
+                  aria-label={`${item.role} at ${item.company}, view details`}
                 >
-                  <div className="flex min-w-0 flex-col gap-2">
-                    <span className="text-xs uppercase tracking-[0.35em] text-white/40">
-                      {item.period}
-                    </span>
-                    <div className="text-lg font-semibold text-white">
+                  <span className="flex min-w-0 flex-col gap-1.5">
+                    <span className="eyebrow">{item.period}</span>
+                    <span className="text-lg font-semibold tracking-tight">
                       {item.role}
-                    </div>
-                    <div className="text-sm text-white/50">{item.company}</div>
-                    <button
-                      onClick={() => setSelectedExperience(item)}
-                      className="text-xs uppercase tracking-[0.35em] text-white/40 hover:text-white/70 transition text-left cursor-pointer mt-1"
-                    >
-                      {item.detail}
-                    </button>
-                  </div>
-                  <div className="flex shrink-0 items-center justify-end gap-4 sm:justify-self-end">
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white/50">
-                      {item.location}
                     </span>
-                    <span className="text-lg text-white/50">↗</span>
-                  </div>
-                </div>
+                    <span className="text-sm t-muted">{item.company}</span>
+                    <span className="mt-1 inline-flex items-center gap-2">
+                      <span className="chip">{item.location}</span>
+                      <span className="text-xs font-semibold uppercase tracking-[0.12em] t-faint">
+                        View details
+                      </span>
+                    </span>
+                  </span>
+                  <span className="row-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </button>
               ))}
             </div>
           )}
+
           {activeTab === "built" && (
-            <div className="mt-6 divide-y divide-white/5">
+            <div role="tabpanel" className="divider mt-2">
               {builtItems.map((item) => (
-                <div
+                <button
                   key={item.title}
-                  className="flex flex-col gap-4 py-6 sm:grid sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-8"
+                  type="button"
+                  className="row-button"
+                  onClick={() => setSelection({ kind: "project", item })}
+                  aria-label={`${item.title}, view details`}
                 >
-                  <div className="flex min-w-0 flex-col gap-1">
-                    <div className="text-lg font-semibold text-white">
+                  <span className="flex min-w-0 flex-col gap-1.5">
+                    <span className="text-lg font-semibold tracking-tight">
                       {item.title}
-                    </div>
-                    <button
-                      onClick={() => setSelectedProject(item)}
-                      className="text-xs uppercase tracking-[0.35em] text-white/40 hover:text-white/70 transition text-left cursor-pointer"
-                    >
-                      {item.detail}
-                    </button>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-4 sm:justify-self-end">
-                    <a
-                      aria-label="GitHub repository"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:border-white/40 hover:text-white"
-                      href={item.github}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2a10 10 0 0 0-3.162 19.488c.5.092.687-.217.687-.483 0-.236-.009-.862-.014-1.692-2.796.608-3.387-1.35-3.387-1.35-.458-1.165-1.118-1.475-1.118-1.475-.914-.624.069-.612.069-.612 1.01.071 1.544 1.037 1.544 1.037.897 1.537 2.353 1.093 2.927.836.092-.65.35-1.093.636-1.345-2.232-.254-4.58-1.116-4.58-4.968 0-1.097.392-1.995 1.036-2.697-.104-.254-.449-1.277.098-2.66 0 0 .845-.27 2.768 1.03a9.59 9.59 0 0 1 2.52-.339c.855.004 1.717.115 2.52.339 1.922-1.3 2.766-1.03 2.766-1.03.548 1.383.203 2.406.1 2.66.645.702 1.035 1.6 1.035 2.697 0 3.86-2.352 4.71-4.59 4.96.359.31.679.92.679 1.855 0 1.338-.012 2.42-.012 2.75 0 .268.18.58.688.482A10 10 0 0 0 12 2Z" />
-                      </svg>
-                    </a>
-                    <a
-                      aria-label="Live demo"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:border-white/40 hover:text-white"
-                      href={item.live}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M14 3h7v7" />
-                        <path d="M10 14L21 3" />
-                        <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
+                    </span>
+                    <span className="text-sm t-muted">{item.summary}</span>
+                    <span className="mt-1 flex flex-wrap gap-1.5">
+                      {item.tech.slice(0, 3).map((t) => (
+                        <span key={t} className="chip">
+                          {t}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                  <span className="flex shrink-0 items-center gap-2">
+                    <span className="row-arrow" aria-hidden="true">
+                      ↗
+                    </span>
+                  </span>
+                </button>
               ))}
             </div>
           )}
+
           {activeTab === "education" && (
-            <div className="mt-6 divide-y divide-white/5">
+            <div role="tabpanel" className="divider mt-2">
               {educationItems.map((item) => (
                 <div
                   key={`${item.degree}-${item.institution}`}
-                  className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between"
+                  className="flex items-center justify-between gap-4 py-5"
                 >
-                  <div className="flex flex-col gap-2">
-                    <span className="text-xs uppercase tracking-[0.35em] text-white/40">
-                      {item.period}
-                    </span>
-                    <div className="text-lg font-semibold text-white">
+                  <div className="flex min-w-0 flex-col gap-1.5">
+                    <span className="eyebrow">{item.period}</span>
+                    <span className="text-lg font-semibold tracking-tight">
                       {item.degree}
-                    </div>
-                    <div className="text-sm text-white/50">{item.institution}</div>
-                  </div>
-                  <div className="flex w-full items-center justify-end gap-4">
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white/50">
-                      {item.location}
                     </span>
-                    <span className="text-lg text-white/50">↗</span>
+                    <span className="text-sm t-muted">{item.institution}</span>
                   </div>
+                  <span className="chip shrink-0">{item.location}</span>
                 </div>
               ))}
             </div>
           )}
         </section>
 
-        <section id="stack" className="dotted-panel w-full pt-12">
-          <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
-            my go to tech stack
-          </div>
-          <div className="mt-5 flex flex-wrap gap-3">
+        {/* ---------- Stack ---------- */}
+        <section id="stack" aria-labelledby="stack-heading" className="panel">
+          <h2
+            id="stack-heading"
+            className="text-xs font-bold uppercase tracking-[0.14em] t-faint"
+          >
+            My go-to tech stack
+          </h2>
+          <ul className="mt-4 flex flex-wrap gap-2" aria-label="Technologies">
             {techStack.map((item) => (
-              <span
-                key={item}
-                className="rounded-md border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white/70"
-              >
+              <li key={item} className="chip chip-static">
                 {item}
-              </span>
+              </li>
             ))}
+          </ul>
+        </section>
+
+        {/* ---------- Contact ---------- */}
+        <section id="contact" aria-labelledby="contact-heading" className="panel">
+          <h2 id="contact-heading" className="text-xl font-semibold tracking-tight">
+            Let&apos;s build something
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed t-muted">
+            Currently open to freelance projects and full-time-adjacent
+            collaborations. Fastest way to reach me is email.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2.5">
+            <a className="btn-primary" href={`mailto:${EMAIL}`}>
+              <MailIcon className="h-4 w-4" />
+              {EMAIL}
+            </a>
+            <a
+              className="btn-secondary"
+              href="https://vectorio.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Vectorio.dev
+              <ExternalIcon className="h-4 w-4" />
+            </a>
           </div>
         </section>
+
+        <footer className="px-2 text-center text-xs t-faint">
+          © {new Date().getFullYear()} Neeraj Kushwaha · Mumbai, India
+        </footer>
       </main>
 
-      {/* Project Detail Panel */}
+      {/* ---------- Detail drawer (single instance) ---------- */}
       <div
-        className={`fixed inset-y-0 right-0 z-30 w-full md:w-[min(42vw,680px)] bg-black/95 backdrop-blur-md border-l border-white/10 transform transition-transform duration-300 ease-in-out ${
-          selectedProject ? "translate-x-0" : "translate-x-full"
+        className={`drawer fixed inset-y-0 right-0 z-30 w-full transition-transform duration-300 ease-in-out sm:max-w-[560px] ${
+          selection ? "translate-x-0" : "translate-x-full"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!selection}
+        aria-label={
+          selection
+            ? selection.kind === "project"
+              ? selection.item.title
+              : `${selection.item.role} at ${selection.item.company}`
+            : "Details"
+        }
+        inert={!selection}
       >
-        <div className="h-full overflow-y-auto p-6 sm:p-8">
+        <div className="flex h-full flex-col overflow-y-auto p-6 sm:p-8">
           <button
-            onClick={() => setSelectedProject(null)}
-            className="flex items-center gap-2 text-white/60 hover:text-white transition mb-8"
+            ref={closeButtonRef}
+            onClick={closeDrawer}
+            type="button"
+            className="mb-8 inline-flex w-fit items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] t-muted transition hover:text-[var(--foreground)]"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            <span className="text-xs uppercase tracking-[0.35em]">Back</span>
+            Back
           </button>
 
-          {selectedProject && (
+          {selection?.kind === "project" && (
             <div className="flex flex-col gap-6">
-              {/* Image Placeholder */}
-              <div className="aspect-video rounded-lg border border-white/10 bg-white/5 flex items-center justify-center">
-                <span className="text-white/30 text-sm">Project Screenshot</span>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-2xl font-semibold text-white">
-                {selectedProject.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-white/60 leading-relaxed">
-                {selectedProject.description}
-              </p>
-
-              {/* Tech Stack */}
               <div>
-                <h4 className="text-xs uppercase tracking-[0.35em] text-white/40 mb-3">
-                  Tech Stack
-                </h4>
+                <h3 className="text-2xl font-semibold tracking-tight">
+                  {selection.item.title}
+                </h3>
+                <p className="mt-1 text-sm t-muted">{selection.item.summary}</p>
+              </div>
+              <p className="leading-relaxed t-muted">{selection.item.description}</p>
+              <div>
+                <h4 className="eyebrow mb-3">Tech stack</h4>
                 <div className="flex flex-wrap gap-2">
-                  {selectedProject.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold tracking-[0.15em] text-white/70"
-                    >
+                  {selection.item.tech.map((t) => (
+                    <span key={t} className="chip chip-static">
                       {t}
                     </span>
                   ))}
                 </div>
               </div>
-
-              {/* Features */}
               <div>
-                <h4 className="text-xs uppercase tracking-[0.35em] text-white/40 mb-3">
-                  Features
-                </h4>
+                <h4 className="eyebrow mb-3">Features</h4>
                 <ul className="flex flex-col gap-2">
-                  {selectedProject.features.map((f) => (
-                    <li key={f} className="flex items-center gap-3 text-white/60 text-sm">
-                      <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
+                  {selection.item.features.map((f) => (
+                    <li key={f} className="flex items-center gap-3 text-sm t-muted">
+                      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--faint)]" />
                       {f}
                     </li>
                   ))}
                 </ul>
               </div>
-
-              {/* Links */}
-              <div className="flex items-center gap-4 pt-4">
+              <div className="flex flex-wrap gap-2.5 pt-2">
                 <a
-                  href={selectedProject.github}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:border-white/40 hover:text-white"
+                  href={selection.item.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary"
                 >
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2a10 10 0 0 0-3.162 19.488c.5.092.687-.217.687-.483 0-.236-.009-.862-.014-1.692-2.796.608-3.387-1.35-3.387-1.35-.458-1.165-1.118-1.475-1.118-1.475-.914-.624.069-.612.069-.612 1.01.071 1.544 1.037 1.544 1.037.897 1.537 2.353 1.093 2.927.836.092-.65.35-1.093.636-1.345-2.232-.254-4.58-1.116-4.58-4.968 0-1.097.392-1.995 1.036-2.697-.104-.254-.449-1.277.098-2.66 0 0 .845-.27 2.768 1.03a9.59 9.59 0 0 1 2.52-.339c.855.004 1.717.115 2.52.339 1.922-1.3 2.766-1.03 2.766-1.03.548 1.383.203 2.406.1 2.66.645.702 1.035 1.6 1.035 2.697 0 3.86-2.352 4.71-4.59 4.96.359.31.679.92.679 1.855 0 1.338-.012 2.42-.012 2.75 0 .268.18.58.688.482A10 10 0 0 0 12 2Z" />
-                  </svg>
+                  <GitHubIcon className="h-4 w-4" />
+                  View code
                 </a>
                 <a
-                  href={selectedProject.live}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:border-white/40 hover:text-white"
+                  href={selection.item.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
                 >
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} viewBox="0 0 24 24">
-                    <path d="M14 3h7v7" />
-                    <path d="M10 14L21 3" />
-                    <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
-                  </svg>
+                  Live demo
+                  <ExternalIcon className="h-4 w-4" />
                 </a>
               </div>
             </div>
           )}
-        </div>
-      </div>
 
-      {/* Experience Detail Panel */}
-      <div
-        className={`fixed inset-y-0 right-0 z-30 w-full md:w-[min(42vw,680px)] bg-black/95 backdrop-blur-md border-l border-white/10 transform transition-transform duration-300 ease-in-out ${
-          selectedExperience ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="h-full overflow-y-auto p-6 sm:p-8">
-          <button
-            onClick={() => setSelectedExperience(null)}
-            className="flex items-center gap-2 text-white/60 hover:text-white transition mb-8"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            <span className="text-xs uppercase tracking-[0.35em]">Back</span>
-          </button>
-
-          {selectedExperience && (
+          {selection?.kind === "experience" && (
             <div className="flex flex-col gap-6">
-              {/* Role */}
-              <h3 className="text-2xl font-semibold text-white">
-                {selectedExperience.role}
-              </h3>
-
-              {/* Company & Period */}
-              <div className="flex flex-col gap-1">
-                <span className="text-white/70">{selectedExperience.company}</span>
-                <span className="text-xs uppercase tracking-[0.35em] text-white/40">
-                  {selectedExperience.period}
-                </span>
-              </div>
-
-              {/* Description */}
-              <p className="text-white/60 leading-relaxed">
-                {selectedExperience.description}
-              </p>
-
-              {/* Responsibilities */}
               <div>
-                <h4 className="text-xs uppercase tracking-[0.35em] text-white/40 mb-3">
-                  Responsibilities
-                </h4>
+                <h3 className="text-2xl font-semibold tracking-tight">
+                  {selection.item.role}
+                </h3>
+                <p className="mt-1 t-muted">{selection.item.company}</p>
+                <p className="eyebrow mt-2">{selection.item.period} · {selection.item.location}</p>
+              </div>
+              <p className="leading-relaxed t-muted">{selection.item.description}</p>
+              <div>
+                <h4 className="eyebrow mb-3">Responsibilities</h4>
                 <ul className="flex flex-col gap-2">
-                  {selectedExperience.responsibilities.map((r) => (
-                    <li key={r} className="flex items-center gap-3 text-white/60 text-sm">
-                      <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
+                  {selection.item.responsibilities.map((r) => (
+                    <li key={r} className="flex items-center gap-3 text-sm t-muted">
+                      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--faint)]" />
                       {r}
                     </li>
                   ))}
                 </ul>
               </div>
-
-              {/* Tech Stack */}
               <div>
-                <h4 className="text-xs uppercase tracking-[0.35em] text-white/40 mb-3">
-                  Tech Stack
-                </h4>
+                <h4 className="eyebrow mb-3">Tech stack</h4>
                 <div className="flex flex-wrap gap-2">
-                  {selectedExperience.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold tracking-[0.15em] text-white/70"
-                    >
+                  {selection.item.tech.map((t) => (
+                    <span key={t} className="chip chip-static">
                       {t}
                     </span>
                   ))}
@@ -561,160 +583,55 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Backdrop */}
-      {(selectedProject || selectedExperience) && (
+      {selection && (
         <div
-          className="fixed inset-0 z-25 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => {
-            setSelectedProject(null);
-            setSelectedExperience(null);
-          }}
+          className="drawer-backdrop fixed inset-0 z-20"
+          onClick={closeDrawer}
+          aria-hidden="true"
         />
       )}
 
-      <nav className="pointer-events-none fixed inset-x-0 bottom-6 z-20 flex justify-center px-4">
-        <div className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-white/10 bg-black/60 px-3 py-2 text-white/80 shadow-[0_12px_30px_rgba(0,0,0,0.45)] backdrop-blur">
-          <a
-            aria-label="Home"
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
-            href="#"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
+      {/* ---------- Dock: in-page nav only (no dead links) ---------- */}
+      <nav aria-label="Page sections" className="pointer-events-none fixed inset-x-0 bottom-6 z-10 flex justify-center px-4">
+        <div className="dock pointer-events-auto inline-flex items-center gap-2 rounded-full px-3 py-2 backdrop-blur">
+          <a aria-label="Back to top" className="dock-btn" href="#top">
+            <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
               <path d="M3 10.5 12 3l9 7.5" />
               <path d="M5 10v10h14V10" />
               <path d="M9 20v-6h6v6" />
             </svg>
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Home
-            </span>
           </a>
-          <span className="h-6 w-px bg-white/10" />
-          <a
-            aria-label="Blog"
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
-            href="#about"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H8" />
-              <path d="M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2" />
-              <path d="M9 8h8" />
-              <path d="M9 12h8" />
-              <path d="M9 16h6" />
+          <a aria-label="About" className="dock-btn" href="#about">
+            <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
             </svg>
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Blog
-            </span>
           </a>
-          <span className="h-6 w-px bg-white/10" />
-          <a
-            aria-label="GitHub"
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
-            href="#"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2a10 10 0 0 0-3.162 19.488c.5.092.687-.217.687-.483 0-.236-.009-.862-.014-1.692-2.796.608-3.387-1.35-3.387-1.35-.458-1.165-1.118-1.475-1.118-1.475-.914-.624.069-.612.069-.612 1.01.071 1.544 1.037 1.544 1.037.897 1.537 2.353 1.093 2.927.836.092-.65.35-1.093.636-1.345-2.232-.254-4.58-1.116-4.58-4.968 0-1.097.392-1.995 1.036-2.697-.104-.254-.449-1.277.098-2.66 0 0 .845-.27 2.768 1.03a9.59 9.59 0 0 1 2.52-.339c.855.004 1.717.115 2.52.339 1.922-1.3 2.766-1.03 2.766-1.03.548 1.383.203 2.406.1 2.66.645.702 1.035 1.6 1.035 2.697 0 3.86-2.352 4.71-4.59 4.96.359.31.679.92.679 1.855 0 1.338-.012 2.42-.012 2.75 0 .268.18.58.688.482A10 10 0 0 0 12 2Z" />
+          <a aria-label="Work" className="dock-btn" href="#work">
+            <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+              <rect x="3" y="7" width="18" height="13" rx="2" />
+              <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
             </svg>
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              GitHub
-            </span>
           </a>
-          <a
-            aria-label="LinkedIn"
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
-            href="#"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.3c0-1.26-.02-2.88-1.75-2.88-1.75 0-2.02 1.37-2.02 2.79V21h-4V9Z" />
+          <a aria-label="Tech stack" className="dock-btn" href="#stack">
+            <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="m8 8-5 4 5 4" />
+              <path d="m16 8 5 4-5 4" />
+              <path d="m13 4-2 16" />
             </svg>
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              LinkedIn
-            </span>
           </a>
-          <a
-            aria-label="X"
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
-            href="#"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M18.9 3H21l-6.9 7.89L22 21h-6.2l-4.86-6.33L5.3 21H3l7.41-8.46L2 3h6.35l4.4 5.78L18.9 3Zm-1.08 16.2h1.9L7.62 4.7H5.6l12.22 14.5Z" />
-            </svg>
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              X
-            </span>
+          <a aria-label={`Email ${EMAIL}`} className="dock-btn" href={`mailto:${EMAIL}`}>
+            <MailIcon />
           </a>
-          <a
-            aria-label="Email"
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
-            href="mailto:hello@example.com"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" />
-              <path d="m22 8-10 6L2 8" />
-            </svg>
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Mail
-            </span>
-          </a>
-          <span className="h-6 w-px bg-white/10" />
+          <span aria-hidden="true" className="h-6 w-px bg-[var(--border)]" />
           <button
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-white/40 hover:text-white"
+            className="dock-btn"
             onClick={toggleTheme}
             type="button"
           >
             {theme === "dark" ? (
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
+              <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="4" />
                 <path d="M12 2v2" />
                 <path d="M12 20v2" />
@@ -726,22 +643,10 @@ export default function Home() {
                 <path d="m19.07 4.93-1.41 1.41" />
               </svg>
             ) : (
-              <svg
-                aria-hidden="true"
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
+              <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M12 3a6 6 0 0 0 0 12 6.5 6.5 0 0 1-6.5 6A9 9 0 1 1 12 3Z" />
               </svg>
             )}
-            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Mode
-            </span>
           </button>
         </div>
       </nav>
