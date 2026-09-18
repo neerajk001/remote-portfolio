@@ -214,7 +214,7 @@ export default function Home() {
           <div className="profile-content">
             <span className="availability-badge">
               <span className="availability-dot" aria-hidden="true" />
-              Available for work
+              Available
             </span>
             <h1 className="profile-name">Neeraj Kushwaha</h1>
             <p className="profile-role">Full-Stack Developer</p>
